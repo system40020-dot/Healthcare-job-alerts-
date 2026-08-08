@@ -1,0 +1,5 @@
+{
+  "note": "This file is just a reference. The script reads keys from environment variables (ADZUNA_APP_ID, ADZUNA_APP_KEY) by default. If you'd rather hardcode them, open healthcare_job_alerts.py and paste your keys directly into APP_ID and APP_KEY near the top.",
+  "adzuna_app_id": "your_app_id_here",
+  "adzuna_app_key": "your_app_key_here"
+}
