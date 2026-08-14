@@ -1,0 +1,89 @@
+# Comprehensive Healthcare Department and Sub-Role Keyword Mapping
+HEALTHCARE_JOB_CATEGORIES = {
+    "Radiology & Imaging": [
+        "radiology", "imaging", "radiographer", "x-ray technician", "xray technician", 
+        "ct technician", "computed tomography", "mri technician", "ultrasound technician", 
+        "sonographer", "cath lab technician", "nuclear medicine technologist",
+        "radiology assistant", "imaging assistant", "radiology in-charge", "radiology supervisor",
+        "x-ray assistant", "ct in-charge", "mri in-charge"
+    ],
+    "Laboratory & Pathology": [
+        "lab technician", "laboratory technician", "mlt", "medical laboratory technologist", 
+        "pathology technician", "phlebotomist", "biochemistry technician", 
+        "microbiology technician", "blood bank technician",
+        "lab assistant", "laboratory assistant", "lab in-charge", "pathology assistant", 
+        "lab supervisor", "blood bank in-charge"
+    ],
+    "Operation Theatre & Critical Care": [
+        "ot technician", "operation theatre technician", "icu technician", 
+        "critical care technician", "anesthesia technician",
+        "ot assistant", "operation theatre assistant", "ot in-charge", 
+        "icu assistant", "icu in-charge", "critical care assistant"
+    ],
+    "Dialysis Technician": [
+        "dialysis technician", "dialysis assistant", "dialysis technologist", 
+        "hemodialysis technician", "dialysis nurse", "dialysis in-charge", "dialysis supervisor"
+    ],
+    "Dietician & Nutritionist": [
+        "dietician", "dietitian", "nutritionist", "clinical nutritionist", 
+        "dietetics in-charge", "chief dietician", "food and nutrition supervisor", 
+        "dietary assistant"
+    ],
+    "Optometrist": [
+        "optometrist", "ophthalmic assistant", "eye care technician", 
+        "optometry technician", "optometrist in-charge", "ophthalmic technician"
+    ],
+    "Nursing & Emergency": [
+        "staff nurse", "nursing officer", "emergency medical technician", 
+        "emt", "paramedic", "ward nurse", "nursing in-charge", "nursing supervisor"
+    ],
+    "Pharmacy & Biomedical Engineering": [
+        "pharmacist", "pharmacy technician", "dispenser", 
+        "biomedical engineer", "biomedical technician", "pharmacy in-charge"
+    ],
+    "Assistant Professor - Radiology & Imaging": [
+        "assistant professor radiology", "assistant professor imaging", "assistant professor radiodiagnosis"
+    ],
+    "Assistant Professor - Laboratory & Pathology": [
+        "assistant professor pathology", "assistant professor laboratory medicine", "assistant professor microbiology", "assistant professor biochemistry"
+    ],
+    "Assistant Professor - Operation Theatre & Surgery": [
+        "assistant professor surgery", "assistant professor operation theatre", "assistant professor anesthesiology"
+    ],
+    "Assistant Professor - Dialysis & Nephrology": [
+        "assistant professor nephrology", "assistant professor dialysis"
+    ],
+    "Assistant Professor - Nursing": [
+        "assistant professor nursing"
+    ],
+    "Assistant Professor - Optometry & Ophthalmology": [
+        "assistant professor ophthalmology", "assistant professor optometry"
+    ],
+    "Assistant Professor - General Medical / Clinical": [
+        "assistant professor medical", "assistant professor clinical", "assistant professor anatomy", "assistant professor physiology"
+    ]
+}
+
+# Streamlit Filter Integration
+import streamlit as st
+
+st.sidebar.header("🔍 Advanced Job Filters")
+
+# Let the user select a department
+selected_department = st.sidebar.selectbox(
+    "Select Department / Category",
+    options=list(HEALTHCARE_JOB_CATEGORIES.keys())
+)
+
+# Automatically fetch all corresponding keywords for the chosen department
+active_keywords = HEALTHCARE_JOB_CATEGORIES[selected_department]
+
+st.sidebar.write(f"**Active Search Sub-Roles:**")
+for kw in active_keywords:
+    st.sidebar.text(f"• {kw.title()}")
+
+# Logic to filter job listings dataframe based on the active keywords list
+def filter_jobs_by_department(df, keywords):
+    pattern = '|'.join([f"\\b{kw}\\b" for kw in keywords])
+    filtered_df = df[df['Job Title'].str.contains(pattern, case=False, na=False)]
+    return filtered_df
