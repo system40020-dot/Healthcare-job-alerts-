@@ -1,4 +1,4 @@
-*Healthcare Job Alerts — 13 Aug 2026*
+*Healthcare Job Alerts — 14 Aug 2026*
 
 1. 🏥 *Staff Nurse*
 🏢 Not listed
@@ -15,36 +15,35 @@
 📍 Delhi, India
 🔗 https://www.adzuna.in/details/5503364160?utm_medium=api&utm_source=7c0a9ce9
 
-4. 🏥 *Fresher Trainee*
+4. 🏥 *Healthcare Recruiter*
+🏢 RECEX
+📍 Delhi, India
+🔗 https://www.adzuna.in/details/5727167890?utm_medium=api&utm_source=7c0a9ce9
+
+5. 🏥 *Fresher Trainee*
 🏢 www.minda.co.in
 📍 Delhi, India
 🔗 https://www.adzuna.in/details/4801478788?utm_medium=api&utm_source=7c0a9ce9
 
-5. 🏥 *Shift Incharge*
+6. 🏥 *Shift Incharge*
 🏢 Narayana Health 
 📍 Delhi, India
 🔗 https://www.adzuna.in/details/5806700904?utm_medium=api&utm_source=7c0a9ce9
 
-6. 🏥 *Icu head md DNB Anaesthesia Critical care*
+7. 🏥 *Icu head md DNB Anaesthesia Critical care*
 🏢 Medico Job Hub
 📍 Delhi, India
 🔗 https://www.adzuna.in/details/5728419284?utm_medium=api&utm_source=7c0a9ce9
 
-7. 🏥 *Incharge*
+8. 🏥 *Incharge*
 🏢 Narayana Health 
 📍 Delhi, India
 🔗 https://www.adzuna.in/details/5806700903?utm_medium=api&utm_source=7c0a9ce9
 
-8. 🏥 *Senior Resident - Peaditirics*
-🏢 Fortis Healthcare
-📍 Delhi, India
-💰 ₹100,000 - ₹1,500,000
-🔗 https://www.adzuna.in/details/4801527633?utm_medium=api&utm_source=7c0a9ce9
-
 9. 🏥 *General Manager - Business Development (In-Licensing)*
 🏢 MANKIND PHARMA LTD
 📍 New Delhi, Delhi
-🔗 https://www.adzuna.in/land/ad/5834649732?se=vnWeIuWW8RG-JPlsFNQypA&utm_medium=api&utm_source=7c0a9ce9&v=35949305467040C6DF93CA0AFFC0533D80492F3B
+🔗 https://www.adzuna.in/land/ad/5834649732?se=rqjXoq2X8RGtU5Il3Z8v3A&utm_medium=api&utm_source=7c0a9ce9&v=35949305467040C6DF93CA0AFFC0533D80492F3B
 
 10. 🏥 *Pharmacist*
 🏢 Healthskool
@@ -82,10 +81,11 @@
 📍 Delhi, India
 🔗 https://www.adzuna.in/details/5835715327?utm_medium=api&utm_source=7c0a9ce9
 
-17. 🏥 *Enterprise Account Manager*
-🏢 Abbott
-📍 New Delhi, Delhi
-🔗 https://www.adzuna.in/details/5745233827?utm_medium=api&utm_source=7c0a9ce9
+17. 🏥 *Territory TSM - Hospital*
+🏢 Boolean Staffing Recruitment Solutions Pvt Ltd
+📍 Delhi, India
+💰 ₹300,000 - ₹550,000
+🔗 https://www.adzuna.in/details/5737223942?utm_medium=api&utm_source=7c0a9ce9
 
 18. 🏥 *Lab Technician*
 🏢 Not listed
