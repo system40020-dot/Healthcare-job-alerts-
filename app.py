@@ -1,7 +1,8 @@
-app_code = r'''
 import streamlit as st
 import pandas as pd
 from jobspy import scrape_jobs
+from playwright.sync_api import sync_playwright
+from playwright_stealth import stealth_sync
 
 st.set_page_config(
     page_title="India Healthcare Job Automator & Broadcaster",
@@ -123,6 +124,52 @@ selected_boards = st.sidebar.multiselect("Select Resources & Job Boards", ["inde
 include_official_portals = st.sidebar.checkbox("Include Official Hospital & Institutional Career Pages", value=True)
 whatsapp_channel_link = st.sidebar.text_input("Channel Invite URL", "https://whatsapp.com/channel/0029VbCCDBbDzt8flpKPh2o")
 
+# Custom Stealth Scraper function for Naukri to bypass reCAPTCHA
+def scrape_naukri_stealth(keyword, location, results_wanted=10):
+    jobs_list = []
+    kw = keyword.replace(" ", "-").lower()
+    loc = location.split(",")[0].strip().replace(" ", "-").lower()
+    url = f"https://www.naukri.com/{kw}-jobs-in-{loc}"
+    
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                viewport={"width": 1920, "height": 1080}
+            )
+            page = context.new_page()
+            stealth_sync(page)
+            
+            page.goto(url, timeout=30000)
+            page.wait_for_timeout(3000)
+            
+            job_cards = page.locator(".srp-jobtuple-wrapper").all()
+            for card in job_cards[:results_wanted]:
+                try:
+                    title_elem = card.locator(".title")
+                    comp_elem = card.locator(".comp-name")
+                    
+                    title = title_elem.inner_text() if title_elem.count() > 0 else keyword
+                    company = comp_elem.inner_text() if comp_elem.count() > 0 else "Leading Healthcare Facility"
+                    link = title_elem.get_attribute("href") if title_elem.count() > 0 else "#"
+                    
+                    jobs_list.append({
+                        "site": "naukri",
+                        "title": title,
+                        "company": company,
+                        "location": location,
+                        "date_posted": "Recent",
+                        "job_url": link
+                    })
+                except Exception:
+                    continue
+            browser.close()
+    except Exception as e:
+        pass
+        
+    return pd.DataFrame(jobs_list)
+
 if st.button("🚀 Run Multi-Source Scraper & Generate Broadcasts", type="primary"):
     expanded_titles = HEALTHCARE_JOB_CATEGORIES[selected_category_name]
 
@@ -132,24 +179,36 @@ if st.button("🚀 Run Multi-Source Scraper & Generate Broadcasts", type="primar
     progress_bar = st.progress(0)
     total_titles = len(expanded_titles)
 
-    with st.spinner("Scraping Indeed, Glassdoor, Naukri, Google, and Official Hospital Career Pages concurrently..."):
+    # Exclude naukri from jobspy to prevent 406 recaptcha crash, handle it via stealth scraper
+    jobspy_boards = [b for b in selected_boards if b != "naukri"]
+
+    with st.spinner("Scraping Indeed, Glassdoor, Google, and Naukri (via Playwright-Stealth) concurrently..."):
         for i, title in enumerate(expanded_titles):
             try:
-                google_query_param = f"{title} jobs hiring in {target_location}"
-                if include_official_portals:
-                    google_query_param = f"{title} (hospital OR medical center OR nursing home OR career portal) hiring in {target_location}"
+                # 1. Fetch via JobSpy for Indeed, Glassdoor, Google
+                if jobspy_boards:
+                    google_query_param = f"{title} jobs hiring in {target_location}"
+                    if include_official_portals:
+                        google_query_param = f"{title} (hospital OR medical center OR nursing home OR career portal) hiring in {target_location}"
 
-                jobs = scrape_jobs(
-                    site_name=selected_boards,
-                    search_term=title,
-                    google_search_term=google_query_param,
-                    location=target_location,
-                    results_wanted=results_count,
-                    hours_old=freshness_hours,
-                    country_indeed="India"
-                )
-                if not jobs.empty:
-                    all_jobs.append(jobs)
+                    jobs = scrape_jobs(
+                        site_name=jobspy_boards,
+                        search_term=title,
+                        google_search_term=google_query_param,
+                        location=target_location,
+                        results_wanted=results_count,
+                        hours_old=freshness_hours,
+                        country_indeed="India"
+                    )
+                    if not jobs.empty:
+                        all_jobs.append(jobs)
+                
+                # 2. Fetch via Playwright-Stealth for Naukri if selected
+                if "naukri" in selected_boards:
+                    naukri_df = scrape_naukri_stealth(title, target_location, results_count)
+                    if not naukri_df.empty:
+                        all_jobs.append(naukri_df)
+
             except Exception as e:
                 pass
             progress_bar.progress((i + 1) / total_titles)
@@ -197,9 +256,4 @@ if st.button("🚀 Run Multi-Source Scraper & Generate Broadcasts", type="primar
         )
     else:
         st.warning("⚠️ No active listings found matching this exact filter combination. Try expanding your freshness timeframe or location scope.")
-'''
-
-with open("app.py", "w", encoding="utf-8") as f:
-    f.write(app_code)
-
-print("Successfully updated app.py with all fixes!")
+        
