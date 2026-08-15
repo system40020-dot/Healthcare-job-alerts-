@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from jobspy import scrape_jobs
 from playwright.sync_api import sync_playwright
-from playwright_stealth import stealth_sync
+from playwright_stealth import stealth
 
 st.set_page_config(
     page_title="India Healthcare Job Automator & Broadcaster",
