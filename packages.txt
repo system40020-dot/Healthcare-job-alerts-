@@ -1,0 +1,5 @@
+libnspr4
+libnss3
+libnssutil3
+libxss1
+libasound2
