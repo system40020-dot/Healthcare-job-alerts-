@@ -4,8 +4,8 @@ import pandas as pd
 from jobspy import scrape_jobs
 
 st.set_page_config(
-    page_title="India Healthcare Job Automator & Broadcaster", 
-    page_icon="🏥", 
+    page_title="India Healthcare Job Automator & Broadcaster",
+    page_icon="🏥",
     layout="wide"
 )
 
@@ -15,44 +15,44 @@ st.markdown("Automate job discovery across **Indeed, Glassdoor, Naukri, Google, 
 # Comprehensive Healthcare Department and Sub-Role Keyword Mapping
 HEALTHCARE_JOB_CATEGORIES = {
     "Radiology & Imaging": [
-        "radiology", "imaging", "radiographer", "x-ray technician", "xray technician", 
-        "ct technician", "computed tomography", "mri technician", "ultrasound technician", 
+        "radiology", "imaging", "radiographer", "x-ray technician", "xray technician",
+        "ct technician", "computed tomography", "mri technician", "ultrasound technician",
         "sonographer", "cath lab technician", "nuclear medicine technologist",
         "radiology assistant", "imaging assistant", "radiology in-charge", "radiology supervisor",
         "x-ray assistant", "ct in-charge", "mri in-charge"
     ],
     "Laboratory & Pathology": [
-        "lab technician", "laboratory technician", "mlt", "medical laboratory technologist", 
-        "pathology technician", "phlebotomist", "biochemistry technician", 
+        "lab technician", "laboratory technician", "mlt", "medical laboratory technologist",
+        "pathology technician", "phlebotomist", "biochemistry technician",
         "microbiology technician", "blood bank technician",
-        "lab assistant", "laboratory assistant", "lab in-charge", "pathology assistant", 
+        "lab assistant", "laboratory assistant", "lab in-charge", "pathology assistant",
         "lab supervisor", "blood bank in-charge"
     ],
     "Operation Theatre & Critical Care": [
-        "ot technician", "operation theatre technician", "icu technician", 
+        "ot technician", "operation theatre technician", "icu technician",
         "critical care technician", "anesthesia technician",
-        "ot assistant", "operation theatre assistant", "ot in-charge", 
+        "ot assistant", "operation theatre assistant", "ot in-charge",
         "icu assistant", "icu in-charge", "critical care assistant"
     ],
     "Dialysis Technician": [
-        "dialysis technician", "dialysis assistant", "dialysis technologist", 
+        "dialysis technician", "dialysis assistant", "dialysis technologist",
         "hemodialysis technician", "dialysis nurse", "dialysis in-charge", "dialysis supervisor"
     ],
     "Dietician & Nutritionist": [
-        "dietician", "dietitian", "nutritionist", "clinical nutritionist", 
-        "dietetics in-charge", "chief dietician", "food and nutrition supervisor", 
+        "dietician", "dietitian", "nutritionist", "clinical nutritionist",
+        "dietetics in-charge", "chief dietician", "food and nutrition supervisor",
         "dietary assistant"
     ],
     "Optometrist": [
-        "optometrist", "ophthalmic assistant", "eye care technician", 
+        "optometrist", "ophthalmic assistant", "eye care technician",
         "optometry technician", "optometrist in-charge", "ophthalmic technician"
     ],
     "Nursing & Emergency": [
-        "staff nurse", "nursing officer", "emergency medical technician", 
+        "staff nurse", "nursing officer", "emergency medical technician",
         "emt", "paramedic", "ward nurse", "nursing in-charge", "nursing supervisor"
     ],
     "Pharmacy & Biomedical Engineering": [
-        "pharmacist", "pharmacy technician", "dispenser", 
+        "pharmacist", "pharmacy technician", "dispenser",
         "biomedical engineer", "biomedical technician", "pharmacy in-charge"
     ],
     "Assistant Professor - Radiology & Imaging": [
@@ -80,22 +80,22 @@ HEALTHCARE_JOB_CATEGORIES = {
 
 location_options = {
     "Pan-India / State-Wide": [
-        "India", "Uttar Pradesh, India", "Gujarat, India", "Delhi, India", 
+        "India", "Uttar Pradesh, India", "Gujarat, India", "Delhi, India",
         "Maharashtra, India", "Bihar, India", "Jharkhand, India", "Karnataka, India", "Tamil Nadu, India"
     ],
     "Tier 1 Cities (Metros)": [
-        "Delhi NCR, India", "Mumbai, Maharashtra", "Bengaluru, Karnataka", 
+        "Delhi NCR, India", "Mumbai, Maharashtra", "Bengaluru, Karnataka",
         "Chennai, Tamil Nadu", "Kolkata, West Bengal", "Hyderabad, Telangana", "Ahmedabad, Gujarat", "Pune, Maharashtra"
     ],
     "Tier 2 & Healthcare Hubs": [
-        "Lucknow, Uttar Pradesh", "Surat, Gujarat", "Kanpur, Uttar Pradesh", 
-        "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh", "Meerut, Uttar Pradesh", 
-        "Vadodara, Gujarat", "Rajkot, Gujarat", "Indore, Madhya Pradesh", "Bhopal, Madhya Pradesh", 
+        "Lucknow, Uttar Pradesh", "Surat, Gujarat", "Kanpur, Uttar Pradesh",
+        "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh", "Meerut, Uttar Pradesh",
+        "Vadodara, Gujarat", "Rajkot, Gujarat", "Indore, Madhya Pradesh", "Bhopal, Madhya Pradesh",
         "Patna, Bihar", "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Jaipur, Rajasthan"
     ],
     "Tier 3 Districts & Regional Centers": [
-        "Gorakhpur, Uttar Pradesh", "Bareilly, Uttar Pradesh", "Aligarh, Uttar Pradesh", 
-        "Moradabad, Uttar Pradesh", "Saharanpur, Uttar Pradesh", "Jhansi, Uttar Pradesh", 
+        "Gorakhpur, Uttar Pradesh", "Bareilly, Uttar Pradesh", "Aligarh, Uttar Pradesh",
+        "Moradabad, Uttar Pradesh", "Saharanpur, Uttar Pradesh", "Jhansi, Uttar Pradesh",
         "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Anand, Gujarat", "Dhanbad, Jharkhand", "Bokaro, Jharkhand"
     ]
 }
@@ -125,13 +125,13 @@ whatsapp_channel_link = st.sidebar.text_input("Channel Invite URL", "https://wha
 
 if st.button("🚀 Run Multi-Source Scraper & Generate Broadcasts", type="primary"):
     expanded_titles = HEALTHCARE_JOB_CATEGORIES[selected_category_name]
-    
+
     st.info(f"🔎 Category: **{selected_category_name}** | Target Location: **{target_location}** | Freshness: **{freshness_label}**")
-    
+
     all_jobs = []
     progress_bar = st.progress(0)
     total_titles = len(expanded_titles)
-    
+
     with st.spinner("Scraping Indeed, Glassdoor, Naukri, Google, and Official Hospital Career Pages concurrently..."):
         for i, title in enumerate(expanded_titles):
             try:
@@ -158,22 +158,22 @@ if st.button("🚀 Run Multi-Source Scraper & Generate Broadcasts", type="primar
         master_df = pd.concat(all_jobs, ignore_index=True)
         if 'job_url' in master_df.columns:
             master_df = master_df.drop_duplicates(subset=['job_url'], keep='first')
-            
+
         st.success(f"✅ Successfully gathered {len(master_df)} unique verified listings!")
         st.subheader("📊 Live Data Preview")
         st.dataframe(master_df[['site', 'title', 'company', 'location', 'date_posted']])
-        
+
         st.subheader("💬 Ready-to-Post WhatsApp Channel Formats")
         for _, row in master_df.iterrows():
             job_title = str(row.get('title', 'Healthcare Professional')).upper()
             company_name = row.get('company', 'Hospital / Healthcare Facility')
             if pd.isna(company_name) or company_name == '':
                 company_name = "Leading Healthcare Provider"
-                
+
             location_val = row.get('location', target_location)
             job_link = row.get('job_url', '#')
             site_source = str(row.get('site', 'Official Portal')).capitalize()
-            
+
             whatsapp_template = (
                 f"HIRING | {job_title}\n\n"
                 f"🏥 {company_name}\n\n"
@@ -187,7 +187,7 @@ if st.button("🚀 Run Multi-Source Scraper & Generate Broadcasts", type="primar
             )
             st.text_area(f"📱 Format for: {job_title} at {company_name}", whatsapp_template, height=220)
             st.markdown("---")
-            
+
         csv_data = master_df.to_csv(index=False).encode('utf-8')
         st.download_button(
             label="📥 Download Master Job Spreadsheet (CSV)",
