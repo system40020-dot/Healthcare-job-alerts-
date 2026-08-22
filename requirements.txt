@@ -1,5 +1,0 @@
-streamlit
-pandas
-playwright
-python-jobspy
-playwright-stealth
