@@ -1,0 +1,5 @@
+streamlit
+pandas
+setuptools
+playwright
+git+https://github.com/speedyapply/JobSpy.git@refs/pull/347/head
