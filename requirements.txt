@@ -1,6 +1,0 @@
-streamlit
-pandas
-playwright
-python-jobspy
-playwright-stealth==1.0.6
-setuptools<81
