@@ -1,5 +1,0 @@
-streamlit
-pandas
-playwright
-git+https://github.com/speedyapply/JobSpy.git@refs/pull/347/head
-playwright-stealth==1.0.6
